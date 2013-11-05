@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+	<category label="51000">
+		<setting id="hostOrIp" type="text" label="51001" default="127.0.0.1" />
+		<setting id="username" type="text" label="51002" default="" />
+		<setting id="password" type="text" label="51003" option="hidden" default="" />
+		<setting id="poweroff_cmd" type="text" label="51004" default="poweroff" />
+	</category>
+</settings>
