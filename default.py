@@ -30,7 +30,7 @@ def log(stream):
 def main(isAutostart=False):    
     start()
 
-    if not checkLibrary('paramiko'): import_failed()
+    checkLibrary('paramiko')
     import paramiko
     
     ####### Read Settings
