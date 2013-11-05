@@ -1,4 +1,4 @@
-import xbmc, xbmcgui, xbmcaddon, sys
+import xbmc, xbmcgui, xbmcaddon, sys, os
 
 
 def checkLibrary(module_name):
@@ -6,8 +6,9 @@ def checkLibrary(module_name):
         __import__(module_name)
         print "\tLibrary '%s' successfully loaded!" % module_name
         return True
-    except ImportError:
+    except ImportError, e:
         print "\tError: Unable to load the library '%s'!" % module_name
+        print e
         dialog = xbmcgui.Dialog()
         dialog.ok("Could not find a required library", "Make sure that the python library '%s' is installed on your system." % module_name)
         exit()
@@ -15,11 +16,17 @@ def checkLibrary(module_name):
 
 
 def start():
-    print 'script.synology.poweroff: Starting Synology DiskStation Power Off script'
+    __addon__        = xbmcaddon.Addon()
+    __addonid__      = __addon__.getAddonInfo('id')
+    __addonname__    = __addon__.getAddonInfo('name')
+    print "%s: Starting %s" % (__addonid__, __addonname__)
 
 
 def exit():
-    print 'script.synology.poweroff: Closing Synology DiskStation Power Off script'
+    __addon__        = xbmcaddon.Addon()
+    __addonid__      = __addon__.getAddonInfo('id')
+    __addonname__    = __addon__.getAddonInfo('name')
+    print "%s: Closing %s" % (__addonid__, __addonname__)
 
 
 def log(stream):
@@ -29,20 +36,19 @@ def log(stream):
 
 def main(isAutostart=False):    
     start()
-
+    
+    # check the required libraries
     checkLibrary('paramiko')
     import paramiko
-    
-    ####### Read Settings
-    settings = xbmcaddon.Addon( id="script.synology.poweroff" )
-    language  = settings.getLocalizedString
-    
-    # basic settings
-    hostOrIp = settings.getSetting("hostOrIp")
-    username = settings.getSetting("username")
-    password = settings.getSetting("password")
-    poweroff_cmd = settings.getSetting("poweroff_cmd")
 
+    # basic settings
+    __addon__       = xbmcaddon.Addon()
+    hostOrIp        = __addon__.getSetting("hostOrIp")
+    username        = __addon__.getSetting("username")
+    password        = __addon__.getSetting("password")
+    poweroff_cmd    = __addon__.getSetting("poweroff_cmd")
+
+    # call the poweroff command on the (remote) machine
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(hostOrIp, username=username, password=password)
