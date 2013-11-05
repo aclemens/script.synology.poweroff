@@ -1,2 +1,5 @@
+[B]1.0.1[/B]
+- Switched to the SSH Python libary 'paramiko'
+
 [B]1.0.0[/B]
 - Initial Release
