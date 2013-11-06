@@ -56,7 +56,7 @@ def main(isAutostart=False):
         log(stdout)
         log(stderr)
         ssh.close()
-    except Exception e:
+    except Exception, e:
         print e
 
     exit()
