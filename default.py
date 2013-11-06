@@ -48,13 +48,16 @@ def main(isAutostart=False):
     poweroff_cmd    = __addon__.getSetting("poweroff_cmd")
 
     # call the poweroff command on the (remote) machine
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(hostOrIp, username=username, password=password)
-    stdin, stdout, stderr = ssh.exec_command(poweroff_cmd)
-    log(stdout)
-    log(stderr)
-    ssh.close()
+    try:
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(hostOrIp, username=username, password=password)
+        stdin, stdout, stderr = ssh.exec_command(poweroff_cmd)
+        log(stdout)
+        log(stderr)
+        ssh.close()
+    except Exception e:
+        print e
 
     exit()
     
