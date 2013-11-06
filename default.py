@@ -5,7 +5,6 @@ def checkLibrary(module_name):
     try:
         __import__(module_name)
         print "\tLibrary '%s' successfully loaded!" % module_name
-        return True
     except ImportError, e:
         print "\tError: Unable to load the library '%s'!" % module_name
         print e
